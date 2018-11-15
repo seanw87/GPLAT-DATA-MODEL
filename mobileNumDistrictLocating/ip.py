@@ -7,8 +7,8 @@ import csv, socket
 
 dataset_dir = "dataset/"
 
-def IPspider(numpage):
-    csvfile = open(dataset_dir + 'ips.csv', 'wb')
+def IPspider(numpage, threadId):
+    csvfile = open(dataset_dir + 'ips_' + threadId + '.csv', 'wb')
     url = 'http://www.xicidaili.com/nn/'
     user_agent = 'IP'
     headers = {'User-agent': user_agent}
@@ -29,11 +29,12 @@ def IPspider(numpage):
                 csvfile.write(item)
             except IndexError:
                 pass
+    csvfile.close()
 
 
-def IPpool(verified = True):
+def IPpool(threadId, verified = True):
     socket.setdefaulttimeout(2)
-    reader = csv.reader(open(dataset_dir + 'ips.csv'))
+    reader = csv.reader(open(dataset_dir + 'ips_' + threadId + '.csv'))
     proxies = []
 
     for row in reader:
@@ -61,8 +62,3 @@ def IPpool(verified = True):
             continue
 
     return proxies
-
-
-# IPspider(10)
-# #
-# # IPpool = IPpool()
