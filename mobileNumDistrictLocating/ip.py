@@ -14,8 +14,11 @@ def IPspider(numpage, threadId):
     headers = util.get_header()
     for num in range(1, numpage + 1):
         ipurl = url + str(num)
-        print('Now downloading the ' + str(num * 100) + ' ips')
-        print(ipurl, headers)
+        print('Now downloading the ' + str(num * 100) + ' ips for threadId: ' + threadId)
+        # 清空代理设置
+        proxy_handler = request.ProxyHandler({})
+        opener = request.build_opener(proxy_handler)
+        request.install_opener(opener)
         req = request.Request(ipurl, headers=headers)
         with request.urlopen(req) as reqobj:
             html = reqobj.read()

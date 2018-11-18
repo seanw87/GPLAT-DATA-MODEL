@@ -30,11 +30,12 @@ def mobile_location_crawler(threadId):
     index = 0
     for row in mobile_reader:
         index = index + 1
-        if index % 50 == 0:
+        if index % 50000 == 0:
+            print("Thread " + threadId + " num of request equal 50000, start refetching proxies...")
             os.remove(dataset_dir + 'ips_' + threadId + '.csv')
-        if not os.path.exists(dataset_dir + 'ips_' + threadId + '.csv'):
             ip.IPspider(1, threadId)
             proxies = ip.IPpool(threadId)
+            print("Thread " + threadId + " num of proxies: " + str(len(proxies)) + ". Continue Crawling...")
 
         mobile_num = row[1]
         while True:
@@ -42,12 +43,13 @@ def mobile_location_crawler(threadId):
             if ret:
                 break
             else:
-                proxies = updated_proxies
+                if len(updated_proxies) != 0:
+                    proxies = updated_proxies
 
 
 
 def main():
-    thread_num = 10
+    thread_num = 1
     total_fh = open(dataset_dir + 'mobile.csv')
     try:
         i = 0

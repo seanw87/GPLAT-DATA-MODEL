@@ -78,13 +78,15 @@ def request_attempt(proxies, mobile_num, res_handler, threadId):
         status = -6
     except Exception as e:
         print("Exception, mobile_phone: " + mobile_num, e)
-        return False
+        return False, []
 
     if status < 0:
         if len(proxies) < 10:
+            print("Thread " + threadId + " available num of proxies is below 10, start refetching...")
             os.remove(dataset_dir + 'ips_' + threadId + '.csv')
             ip.IPspider(1, threadId)
             new_proxies = ip.IPpool(threadId)
+            print("Thread " + threadId + " num of proxies: " + str(len(new_proxies)) + ". Continue Crawling...")
         else:
             # drop cur proxy
             proxy_index = proxies.index(proxy_raw)
