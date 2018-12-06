@@ -5,17 +5,19 @@ import tensorflow as tf
 data_dir = "dataset/"
 
 def load_data():
-    list_file = data_dir + "ingame_analysis_list.csv"
-    csv_data = pd.read_csv(list_file, encoding="utf-8")
-    csv_data.describe().to_csv(data_dir + "csv_data_desc.csv")
+    # list_file = data_dir + "ingame_analysis_list.csv"
+    # csv_data = pd.read_csv(list_file, encoding="utf-8")
+    # csv_data.describe().to_csv(data_dir + "csv_data_desc.csv")
 
-    pd.read_csv(data_dir + "ingame_analysis_neg_list.csv", encoding="utf-8").describe()\
-        .to_csv(data_dir + "csv_data_neg_desc.csv")
-    pd.read_csv(data_dir + "ingame_analysis_pos_list.csv", encoding="utf-8").describe()\
-        .to_csv(data_dir + "csv_data_pos_desc.csv")
+    robot_csv_data = pd.read_csv(data_dir + "robot_1110.csv", encoding="utf-8")
+    robot_csv_data.describe().to_csv(data_dir + "robot_1110_desc.csv")
+    real_csv_data = pd.read_csv(data_dir + "real_1110.csv", encoding="utf-8")
+    real_csv_data.describe().to_csv(data_dir + "real_1110_desc.csv")
+    # print(robot_csv_data, real_csv_data)
+    csv_data = pd.concat([robot_csv_data, real_csv_data], ignore_index = True)
 
-    # print(csv_data)
-    ret_csv_data = csv_data.drop("uid", axis=1).apply(np.float32)
+    ret_csv_data = csv_data.drop("uid", axis=1).fillna(0).apply(np.float32)
+    print(ret_csv_data)
     return ret_csv_data, csv_data
 
 points, raw_data = load_data()
