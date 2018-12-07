@@ -9,10 +9,10 @@ def load_data():
     # csv_data = pd.read_csv(list_file, encoding="utf-8")
     # csv_data.describe().to_csv(data_dir + "csv_data_desc.csv")
 
-    robot_csv_data = pd.read_csv(data_dir + "robot_1110.csv", encoding="utf-8")
-    robot_csv_data.describe().to_csv(data_dir + "robot_1110_desc.csv")
-    real_csv_data = pd.read_csv(data_dir + "real_1110.csv", encoding="utf-8")
-    real_csv_data.describe().to_csv(data_dir + "real_1110_desc.csv")
+    robot_csv_data = pd.read_csv(data_dir + "robot_1118.csv", encoding="utf-8")
+    robot_csv_data.describe().to_csv(data_dir + "robot_1118_desc.csv")
+    real_csv_data = pd.read_csv(data_dir + "real_1118.csv", encoding="utf-8")
+    real_csv_data.describe().to_csv(data_dir + "real_1118_desc.csv")
     # print(robot_csv_data, real_csv_data)
     csv_data = pd.concat([robot_csv_data, real_csv_data], ignore_index = True)
 
@@ -41,7 +41,7 @@ num_clusters = 2
 kmeans = tf.contrib.factorization.KMeansClustering(num_clusters=num_clusters, use_mini_batch=False)
 
 #train
-num_iterations = 100
+num_iterations = 15
 previous_centers = None
 for _ in range(num_iterations):
     kmeans.train(input_fn)
